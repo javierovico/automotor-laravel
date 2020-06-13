@@ -14,6 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'AuthController@login');
+    Route::post('signup', 'AuthController@signup');
+
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::get('logout', 'AuthController@logout');
+        Route::get('user', 'AuthController@user');
+    });
+});
+Route::group(['middleware' => 'auth:api'], function() { //los que estan autenticados
+    Route::group(['middleware' => 'permiso:editar_rol_usuario'],function(){ //los que tienen permiso de
+        Route::post('editar-rol','RolController@cambiarRol');
+    });
+});
+Route::group(['middleware' => 'auth:api'], function() { //los que estan autenticados
+    Route::group(['middleware' => 'permiso:registrar_venta'],function(){ //los que tienen permiso de realizar ventas
+        Route::post('venta','VentaController@registrarVenta');
+    });
 });
