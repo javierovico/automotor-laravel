@@ -33,3 +33,4 @@ Route::group(['middleware' => 'auth:api'], function() { //los que estan autentic
         Route::post('venta','VentaController@registrarVenta');
     });
 });
+Route::apiResource('/admin/user/','UserController')->middleware(['permiso:editar_rol_usuario','auth:api',]);

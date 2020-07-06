@@ -7,6 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * @property mixed rol_id
+ * @property mixed documento
+ * @property mixed rol
+ */
 class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
@@ -20,7 +25,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'apellido',
+        'documento',
+        'telefono',
+        'rol_id'
     ];
 
     /**
@@ -40,4 +51,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rol(){
+        return $this->belongsTo(Rol::class);
+    }
 }

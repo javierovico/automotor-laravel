@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
 
 class Permiso
@@ -14,13 +15,14 @@ class Permiso
      * @param $nombrePermiso string
      * @return mixed
      */
-    public function handle($request, Closure $next, string $nombrePermiso)
-    {
-        foreach($request->user()->rol->permisos as $permiso){
+    public function handle($request, Closure $next, string $nombrePermiso){
+        /** @var User $user */
+        $user = $request->user();
+        foreach($user->rol->permisos as $permiso){
             if($permiso->nombre == $nombrePermiso){
                 return $next($request);
             }
         }
-        abort(403,'sin permiso');
+        return abort(403,'sin permiso');
     }
 }
