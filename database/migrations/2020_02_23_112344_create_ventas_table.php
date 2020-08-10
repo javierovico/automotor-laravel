@@ -22,6 +22,7 @@ class CreateVentasTable extends Migration
             $table->unsignedBigInteger('vendedor_id');
             $table->foreign('vendedor_id')->references('id')->on('users');
             $table->timestamp('fecha_venta')->useCurrent();
+            $table->boolean('aprobado')->default(false);
             $table->timestamps();
         });
     }

@@ -23,14 +23,17 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('user', 'AuthController@user');
     });
 });
-Route::group(['middleware' => 'auth:api'], function() { //los que estan autenticados
-    Route::group(['middleware' => 'permiso:editar_rol_usuario'],function(){ //los que tienen permiso de
-        Route::post('editar-rol','RolController@cambiarRol');
-    });
-});
-Route::group(['middleware' => 'auth:api'], function() { //los que estan autenticados
-    Route::group(['middleware' => 'permiso:registrar_venta'],function(){ //los que tienen permiso de realizar ventas
-        Route::post('venta','VentaController@registrarVenta');
-    });
-});
-Route::apiResource('/admin/user/','UserController')->middleware(['permiso:editar_rol_usuario','auth:api',]);
+//Route::group(['middleware' => 'auth:api'], function() { //los que estan autenticados
+//    Route::group(['middleware' => 'permiso:editar_rol_usuario'],function(){ //los que tienen permiso de
+//        Route::post('editar-rol','RolController@cambiarRol');
+//    });
+//});
+//Route::group(['middleware' => 'auth:api'], function() { //los que estan autenticados
+//    Route::group(['middleware' => 'permiso:registrar_venta'],function(){ //los que tienen permiso de realizar ventas
+//        Route::post('venta','VentaController@registrarVenta');
+//    });
+//});
+Route::apiResource('/admin/user','UserController')->middleware(['auth:api','permiso:editar_rol_usuario',]);
+Route::apiResource('/vehiculo','VehiculoController')->middleware(['auth:api',]);
+Route::apiResource('/venta','VentaController')->middleware(['auth:api',]);
+Route::get('vendedor','UserController@vendedores')->middleware(['auth:api',]);

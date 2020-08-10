@@ -11,6 +11,7 @@ use Laravel\Passport\HasApiTokens;
  * @property mixed rol_id
  * @property mixed documento
  * @property mixed rol
+ * @method static User find($id)
  */
 class User extends Authenticatable
 {
@@ -54,5 +55,9 @@ class User extends Authenticatable
 
     public function rol(){
         return $this->belongsTo(Rol::class);
+    }
+
+    public static function getVendedores(){
+        return self::query()->where('rol_id',2);
     }
 }
